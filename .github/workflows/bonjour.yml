@@ -3,8 +3,9 @@ on:
   - push
 jobs:
   dire_bonjour:
-    runs-on: ubuntu-20.04
+    runs-on: [self-hosted, linux]
     steps:
       - uses: actions/checkout@v2 # Récupère le contenu du dépôt correspondant au commit du workflow en cours
+      - run: sudo apt-get install cowsay #install cowsay
       - run: ls -l # Liste les fichier du répertoire courant
-      - run: cat README.md # Affiche le contenu du fichier `README.md` à la base du dépôt
+      - run: cat README.md | cowsay # Affiche le contenu du fichier `README.md` à la base du dépôt
