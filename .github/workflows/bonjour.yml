@@ -5,4 +5,6 @@ jobs:
   dire_bonjour:
     runs-on: ubuntu-20.04
     steps:
-      - run: echo "Bonjour 👋"
+      - uses: actions/checkout@v2 # Récupère le contenu du dépôt correspondant au commit du workflow en cours
+      - run: ls -l # Liste les fichier du répertoire courant
+      - run: cat README.md # Affiche le contenu du fichier `README.md` à la base du dépôt
