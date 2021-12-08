@@ -3,7 +3,7 @@ on:
   - push
 jobs:
   dire_bonjour:
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # Récupère le contenu du dépôt correspondant au commit du workflow en cours
       - run: sudo apt-get install cowsay #install cowsay
