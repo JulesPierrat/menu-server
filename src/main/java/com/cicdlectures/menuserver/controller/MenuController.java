@@ -10,21 +10,27 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.cicdlectures.menuserver.dto.MenuDto;
 import com.cicdlectures.menuserver.service.CreateMenuService;
 import com.cicdlectures.menuserver.service.ListMenuService;
+
+import com.cicdlectures.menuserver.repository.MenuRepository;
 
 @RestController
 public class MenuController {
 
   private final CreateMenuService createMenuService;
-
+  private final MenuRepository menuRepository;
   private final ListMenuService listMenuService;
 
   @Autowired
-  MenuController(CreateMenuService createMenuService, ListMenuService listMenuService) {
+  MenuController(CreateMenuService createMenuService, ListMenuService listMenuService , MenuRepository menuRepository) {
     this.createMenuService = createMenuService;
     this.listMenuService = listMenuService;
+    this.menuRepository = menuRepository;
   }
 
   @GetMapping(path = "/menus", produces = "application/json")
@@ -36,5 +42,11 @@ public class MenuController {
   @ResponseStatus(HttpStatus.CREATED)
   public MenuDto createMenu(@RequestBody MenuDto menu) {
     return createMenuService.createMenu(menu);
+  }
+
+  @DeleteMapping("/menus/{id}")
+  public int deleteMenu(@PathVariable Long id) {
+    this.menuRepository.deleteById(id);
+    return 200;
   }
 }
