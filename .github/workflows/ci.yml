@@ -16,3 +16,4 @@ jobs:
         with:
           name: my-artifact
           path: artifact/world.txt
+      - run: mvn clean verify
