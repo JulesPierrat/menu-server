@@ -9,6 +9,8 @@ import java.util.HashSet;
 
 import com.cicdlectures.menuserver.dto.DishDto;
 import com.cicdlectures.menuserver.dto.MenuDto;
+import com.cicdlectures.menuserver.model.Dish;
+import com.cicdlectures.menuserver.model.Menu;
 import com.cicdlectures.menuserver.repository.MenuRepository;
 
 import org.junit.jupiter.api.DisplayName;
@@ -40,11 +42,20 @@ public class MenuControllerIT {
   @Test
   @DisplayName("get")
   public void listExitingMenus() throws Exception {
-      // Effectue une requête GET /menus
-      ResponseEntity<MenuDto[]> response = this.template.getForEntity(getMenusURL().toString(), MenuDto[].class);
-
+      
       // Create Menu
-      MenuDto myMenu =  new MenuDto(
+      Menu myMenu =  new Menu(
+          null,
+          "Christmas menu",
+          new HashSet<>(
+            Arrays.asList(
+              new Dish(null, "Turkey", null),
+              new Dish(null, "Pecan Pie", null)
+            )
+          )
+      );
+
+      MenuDto myMenuDto =  new MenuDto(
           Long.valueOf(1),
           "Christmas menu",
           new HashSet<>(
@@ -55,17 +66,18 @@ public class MenuControllerIT {
           )
       );
 
-      Iterable<MenuDto> listOfMenu = Arrays.asList(myMenu);
-
       // Post sur le serveur
-      menuRepository.save(listOfMenu);
+      menuRepository.save(myMenu);
+
+      // Effectue une requête GET /menus
+      ResponseEntity<MenuDto[]> response = this.template.getForEntity(getMenusURL().toString(), MenuDto[].class);
 
       //Parse le payload de la réponse sous forme d'array de MenuDto
       MenuDto[] gotMenus = response.getBody();
 
       // On compare la valeur obtenue avec la valeur attendue.
       assertEquals(200 , response.getStatusCodeValue());
-      assertEquals(listOfMenu, gotMenus);
+      assertEquals(myMenuDto, gotMenus[0]);
   }
 
   private URL getMenusURL() throws Exception {
