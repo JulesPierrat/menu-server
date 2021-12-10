@@ -1,6 +1,8 @@
 name: CI
 on :
- - push
+ push:
+  tags:
+    - 'v1.0.0'
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -18,7 +20,7 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-20.04
-    if: contains(gitfub.ref , 'refs/tags/v')
+    if: contains(github.ref , 'refs/tags/v')
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
