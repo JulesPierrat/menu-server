@@ -1,8 +1,6 @@
-on: 
-  push:
-
-name: CD
-
+name: Bonjour
+on:
+  - push
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -20,8 +18,6 @@ jobs:
         with:
           name: menu-server
           path: target/menu-server.jar
-
-
 
   release: 
     needs: build
