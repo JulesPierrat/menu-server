@@ -1,4 +1,4 @@
 #! /bin/sh
-
+mvn clean package
 echo "Lancement du menu-server, accrochez vous bien!"
-java -jar dist/menu-server.jar
+java -jar target/menu-server.jar
