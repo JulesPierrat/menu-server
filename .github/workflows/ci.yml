@@ -51,3 +51,13 @@ jobs:
           asset_path: ./releaseAsset/menu-server.jar
           asset_name: menu-server
           asset_content_type: application/jar
+  
+  release-heroku:
+    needs: build
+    if: contains(github.ref , 'refs/tags/v')
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: menu-server
+          path: ./releaseAsset/
